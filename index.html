@@ -42,8 +42,53 @@
       animation: blink 0.7s infinite;
     }
 
+    #jumpscare {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(70vmin, 420px);
+      transform: translate(-50%, -50%) scale(0.05);
+      transform-origin: center center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+    }
+
+    #jumpscare.active {
+      animation: truckRush 850ms cubic-bezier(0.08, 0.72, 0.22, 1) forwards;
+    }
+
     @keyframes blink {
       50% { opacity: 0; }
+    }
+
+    @keyframes truckRush {
+      0% {
+        transform: translate(-50%, -50%) scale(0.05);
+        opacity: 0;
+        filter: blur(5px);
+      }
+      12% {
+        opacity: 1;
+        filter: blur(0);
+      }
+      45% {
+        transform: translate(-50%, -50%) scale(1.8);
+        opacity: 1;
+        filter: blur(0);
+      }
+      75% {
+        transform: translate(-50%, -50%) scale(6.5);
+        opacity: 0.95;
+        filter: blur(1px);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(12);
+        opacity: 0;
+        filter: blur(8px);
+      }
     }
   </style>
 </head>
@@ -52,6 +97,7 @@
 <div id="terminal"></div>
 <span class="cursor"></span>
 <div class="scanline"></div>
+<img id="jumpscare" src="Beans3 - color %23DFF6FF.PNG" alt="jumpscare cat" />
 
 <script>
 const baseLines = [
@@ -77,6 +123,7 @@ const baseLines = [
 ];
 
 let terminal = document.getElementById("terminal");
+const jumpscare = document.getElementById("jumpscare");
 
 function randomLine() {
   const line = baseLines[Math.floor(Math.random() * baseLines.length)];
@@ -97,6 +144,13 @@ function addLine() {
 
 // start instantly
 addLine();
+
+// Wait until everything is fully loaded, then delay 3s.
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    jumpscare.classList.add("active");
+  }, 3000);
+});
 </script>
 
 </body>
