@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>System Console</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: monospace;
+      overflow: hidden;
+    }
+
+    #terminal {
+      padding: 20px;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.3em;
+    }
+
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      background: white;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="terminal"></div>
+<span class="cursor"></span>
+<div class="scanline"></div>
+
+<script>
+const baseLines = [
+"boot sequence initiated...",
+"mounting /system partition...",
+"checking device integrity...",
+"loading kernel modules...",
+"authenticating user session...",
+"bypassing tubz restrictions...",
+"calculating beanz foopah circumference...",
+"syncing data streams...",
+"analyzing device fingerprint...",
+"injecting runtime process...",
+"compiling background tasks...",
+"establishing secure tunnel...",
+"monitoring active connections...",
+"optimizing system resources...",
+"scanning local network...",
+"verifying credentials...",
+"access granted...",
+"running diagnostics...", 
+"initiating rona overdrive..."
+];
+
+let terminal = document.getElementById("terminal");
+
+function randomLine() {
+  const line = baseLines[Math.floor(Math.random() * baseLines.length)];
+  const noise = Math.floor(Math.random() * 9999);
+  const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
+  return `[${timestamp}] ${line} :: ${noise}`;
+}
+
+function addLine() {
+  terminal.innerHTML += randomLine() + "\n";
+
+  // auto scroll illusion
+  window.scrollTo(0, document.body.scrollHeight);
+
+  // keep it fast
+  setTimeout(addLine, 120);
+}
+
+// start instantly
+addLine();
+</script>
+
+</body>
+</html>
